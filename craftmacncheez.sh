@@ -77,6 +77,8 @@ then
         echo "      - ${portNumber}:80" >> docker-compose.yml
         echo "    depends_on:" >> docker-compose.yml
         echo "      - mysql" >> docker-compose.yml
+        echo "    networks:" >> docker-compose.yml
+        echo "      - internal:" >> docker-compose.yml
         echo "  mysql:" >> docker-compose.yml
         echo "    image: mysql:5.7" >> docker-compose.yml
         echo "    container_name: ${containerName}_db" >> docker-compose.yml
@@ -85,6 +87,17 @@ then
         echo "      MYSQL_USER: ${userName}" >> docker-compose.yml
         echo "      MYSQL_PASSWORD: ${userPassword}" >> docker-compose.yml
         echo "      MYSQL_DATABASE: ${databaseName}" >> docker-compose.yml
+        echo "    networks:" >> docker-compose.yml
+        echo "      - internal:" >> docker-compose.yml
+        echo "    volumes:" >> docker-compose.yml
+        echo "      - mysql_data:/var/lib/mysql" >> docker-compose.yml
+        echo "" >> docker-compose.yml
+        echo "networks:" >> docker-compose.yml
+        echo "  internal:" >> docker-compose.yml
+        echo "    driver: bridge" >> docker-compose.yml
+        echo "" >> docker-compose.yml
+        echo "volumes:" >> docker-compose.yml
+        echo "  mysql_data:" >> docker-compose.yml
         echo "${yellow}Docker Compose YAML complete :)${white}"
         echo "${yellow}Preparing docker containers: ${containerName}_web & ${containerName}_db${white} "
         docker-compose up -d
